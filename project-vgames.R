@@ -100,7 +100,7 @@ classement_favoris10 %>%
 #ggtitle("Les 5 Platforms de jeux vidéo favoris") + 
 
 
-#------Plot 1 : L'evolution des ventes pour chaque année TO-DO / FIRST PLOT IN REPORT---------------------------------
+#------Plot 1 : L'evolution des ventes pour chaque année ---------------------------------
 years = subset(df, Year != "N/A")
 years$Year
 
