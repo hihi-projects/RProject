@@ -1,4 +1,4 @@
-df=read.csv("C:/Users/xel-h/Desktop/RR/vgameDataset.csv",sep=",")
+df=read.csv("C:/Users/xel-h/Desktop/RR/RProject/vgameDataset.csv",sep=",")
 
 
 # ******************************************************Our dataset from 1980 to 2015
@@ -8,7 +8,9 @@ df$Year
 summary(df)
 df$Platform
 #********************************** Import some libs *******************
-
+install.packages("ggplot2")
+install.packages("tidyverse")
+install.packages("plyr")
 library(ggplot2)
 library(tidyverse)
 install.packages("gridExtra")
@@ -18,6 +20,7 @@ library(grid)
 library(gridExtra)
 install.packages("remotes")
 remotes::install_github("Displayr/flipTime")
+
 library(flipTime)
 
 
@@ -25,7 +28,7 @@ library(flipTime)
 #************************************** Dataset' analysing and visualization *************************************
 
 
-#--------------Plot 1 : Top 10 des jeux vidéo les plus vendus :
+#--------------Plot 2 : Top 10 des jeux vidéo les plus vendus :
 
 
 ?aggregate
@@ -46,9 +49,9 @@ ggplot(data = top10, aes(x= reorder(Name, Global_Sales), y=Global_Sales, fill = 
   coord_flip() + xlab("Jeux Vidéo") + 
   ylab("Nombre de ventes (M)") + 
   scale_fill_manual("Legend", values = dd.col)
-  #+ ggtitle("Top 10 des jeux les plus vendus !") 
+#+ ggtitle("Top 10 des jeux les plus vendus !") 
 
-#---Plot 2 :  Best Publisher of games (Millieur editeur)
+#---Plot 3 :  Best Publisher of games (Millieur editeur)
 
 favoris <- ddply(df, c("Publisher"), function(x){sum(x$Global_Sales)})
 
@@ -64,14 +67,14 @@ dd.col <- rainbow(length(classement_favoris5$Publisher))
 names(dd.col)  <- classement_favoris5$Publisher
 
 classement_favoris5 %>% 
-          ggplot(aes(x= reorder(Publisher, desc(V1)), y=V1, fill = Publisher)) + 
-            geom_bar(stat="identity", show.legend = FALSE) + 
-            ylab("Nombre de ventes (M)") +
-            xlab("Editeurs") + 
-            scale_fill_manual("Legend", values = dd.col) 
-            #ggtitle("Les 5 Publishers de jeux vidéo favoris") + 
+  ggplot(aes(x= reorder(Publisher, desc(V1)), y=V1, fill = Publisher)) + 
+  geom_bar(stat="identity", show.legend = FALSE) + 
+  ylab("Nombre de ventes (M)") +
+  xlab("Editeurs") + 
+  scale_fill_manual("Legend", values = dd.col) 
+#ggtitle("Les 5 Publishers de jeux vidéo favoris") + 
 
-#-----Plot 3 : Best Platform (plus de ventes)------------------------------------
+#-----Plot 4 : Best Platform (plus de ventes)------------------------------------
 
 
 
@@ -88,24 +91,24 @@ classement_favoris10$Platform = str_wrap(classement_favoris10$Platform, width = 
 dd.col <- rainbow(length(classement_favoris10$Platform))
 names(dd.col)  <- classement_favoris10$Platform
 
- classement_favoris10 %>%
-        ggplot(aes(x= reorder(Platform, desc(V1)), y=V1, color = Platform)) + 
-          geom_boxplot() + 
-          ylab("Nombre de ventes (M)") +
-          xlab("Editeurs") + 
-          scale_fill_manual("Legend", values = dd.col)
-          #ggtitle("Les 5 Platforms de jeux vidéo favoris") + 
+classement_favoris10 %>%
+  ggplot(aes(x= reorder(Platform, desc(V1)), y=V1, color = Platform)) + 
+  geom_boxplot() + 
+  ylab("Nombre de ventes (M)") +
+  xlab("Editeurs") + 
+  scale_fill_manual("Legend", values = dd.col)
+#ggtitle("Les 5 Platforms de jeux vidéo favoris") + 
 
 
-#------Plot 4 : L'evolution des ventes pour chaque année TO-DO / FIRST PLOT IN REPORT---------------------------------
- years = subset(df, Year != "N/A")
- years$Year
- 
+#------Plot 1 : L'evolution des ventes pour chaque année TO-DO / FIRST PLOT IN REPORT---------------------------------
+years = subset(df, Year != "N/A")
+years$Year
+
 years %>%
   ggplot(aes(x =  Year, fill=Year)) +
   geom_bar(position="dodge", show.legend = FALSE) 
 
-#-------[Plot v: Ventes pour chaque genre---------------------------------------------- 
+#-------[Plot 5: Ventes pour chaque genre---------------------------------------------- 
 
 df %>%
   ggplot(aes(y = Genre, fill=Genre)) +
